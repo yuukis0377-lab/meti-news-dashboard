@@ -34,7 +34,7 @@ def standardize_news(entries, source_name):
             "published": published,
             "source": source_name,
             "summary": summary,
-            "timestamp": time.mktime(entry.published_parsed) if hasattr(entry, 'published_parsed') and entry.published_parsed else 0
+            "timestamp": time.mktime(entry.published_parsed) if hasattr(entry, 'published_parsed') and entry.published_parsed else (time.mktime(entry.updated_parsed) if hasattr(entry, 'updated_parsed') and entry.updated_parsed else 0)
         })
     return news_items
 
