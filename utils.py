@@ -42,7 +42,7 @@ def fetch_meti_rss():
     """
     Fetch official METI news RSS.
     """
-    url = "https://www.meti.go.jp/rss/news.xml"
+    url = "https://www.meti.go.jp/ml_index_release_atom.xml"
     feed = feedparser.parse(url)
     if feed.bozo:
         # Handle potential XML parsing errors or connection issues
