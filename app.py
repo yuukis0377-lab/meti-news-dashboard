@@ -95,21 +95,32 @@ st.sidebar.info("経済産業省の公式RSSとGoogle Newsを統合して表示�
 st.title("📰 経済産業省・関連ニュース")
 
 # --- Fetch Data ---
-with st.spinner("ニュースを取得中..."):
+# --- Fetch Data ---
+with st.status("ニュースを取得中...", expanded=True) as status:
     all_news = []
     
     # Fetch METI Data
     if filter_option in ["すべて", "公式情報のみ"]:
+        st.write("経済産業省のRSSを取得中...")
         meti_news = fetch_meti_rss()
         if meti_news:
+            st.write("✅ 経済産業省: 取得成功")
             all_news.extend(meti_news)
+        else:
+            st.write("⚠️ 経済産業省: 取得失敗 (または更新なし)")
             
     # Fetch Google News Data
     if filter_option in ["すべて", "Google Newsのみ"]:
         if search_query:
+            st.write(f"Google News ('{search_query}') を取得中...")
             google_news = fetch_google_news_rss(search_query)
             if google_news:
+                st.write("✅ Google News: 取得成功")
                 all_news.extend(google_news)
+            else:
+                 st.write("⚠️ Google News: 取得失敗")
+
+    status.update(label="ニュース取得完了", state="complete", expanded=False)
 
     # Sort by date (newest first)
     # Using timestamp we created in utils.py
